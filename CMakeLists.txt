@@ -104,6 +104,8 @@ option(RESTC_CPP_USE_CPP17 "Use the C++17 standard" OFF)
 
 option(RESTC_CPP_USE_CPP20 "Use the C++20 standard" OFF)
 
+option(RESTC_CPP_INSTALL, "Install restc-cpp" ON)
+
 if (NOT RESTC_CPP_USE_CPP14 AND NOT RESTC_CPP_USE_CPP17 AND NOT RESTC_CPP_USE_CPP20)
     # Check if GCC 12 is being used and default it to C++17
     # https://www.mail-archive.com/debian-bugs-dist@lists.debian.org/msg1887728.html
@@ -322,8 +324,10 @@ if (NOT EMBEDDED_RESTC_CPP)
     )
 endif()
 
+if (RESTC_CPP_INSTALL)
 include(cmake_scripts/install.cmake)
 install(DIRECTORY ${CMAKE_BINARY_DIR}/generated-include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
+endif()
 
 if (RESTC_CPP_WITH_UNIT_TESTS OR RESTC_CPP_WITH_FUNCTIONALT_TESTS)
     enable_testing()
