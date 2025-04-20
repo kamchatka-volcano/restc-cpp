@@ -361,6 +361,19 @@ public:
         return future;
     }
 
+    void ProcessWithPromise(const prc_fn_t &fn,
+                            const std::function<void(const std::future<void> &)>
+                                &completionHandler) override {
+        auto promise = make_shared<std::promise<void>>();
+
+        boost::asio::spawn(*io_service_,
+                         [this, fn, completionHandler,
+                          promise](boost::asio::yield_context yield) mutable {
+                           ProcessInWorker(yield, fn, promise);
+                           completionHandler(promise->get_future());
+                         } RESTC_CPP_SPAWN_TRAILER);
+    }
+
     std::shared_ptr<ConnectionPool> GetConnectionPool() override {
         assert(pool_);
         return pool_;
