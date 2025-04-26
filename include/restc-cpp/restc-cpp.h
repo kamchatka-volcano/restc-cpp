@@ -101,6 +101,7 @@ public:
 
         Arg() = default;
         Arg(const Arg&) = default;
+        Arg& operator=(const Arg&) = default;
 
         Arg(const std::string& use_name, const std::string& use_value)
         : name{use_name}, value{use_value} {}

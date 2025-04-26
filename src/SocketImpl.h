@@ -56,7 +56,7 @@ public:
     }
 
     void AsyncConnect(const boost::asio::ip::tcp::endpoint& ep,
-					const std::string &host,
+					const std::string &,
                     bool tcpNodelay,
                     boost::asio::yield_context& yield) override {
         return WrapException<void>([&] {
@@ -66,7 +66,7 @@ public:
         });
     }
 
-    void AsyncShutdown(boost::asio::yield_context& yield) override {
+    void AsyncShutdown(boost::asio::yield_context&) override {
         // Do nothing.
     }
 

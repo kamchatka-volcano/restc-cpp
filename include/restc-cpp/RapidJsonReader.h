@@ -73,7 +73,7 @@ public:
     }
 
     //! Write a character.
-    void Put(Ch c) {
+    void Put(Ch) {
         assert(false);
     }
 
@@ -85,7 +85,7 @@ public:
     //! End the writing operation.
     //! \param begin The begin write pointer returned by PutBegin().
     //! \return Number of characters written.
-    size_t PutEnd(Ch* begin) {
+    size_t PutEnd(Ch*) {
         assert(false);
         return 0;
     }

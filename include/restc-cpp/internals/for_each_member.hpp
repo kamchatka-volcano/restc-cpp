@@ -51,9 +51,9 @@ namespace detail {
 
 template <typename First, typename Last, typename F>
 inline void
-for_each_member_linear(First const& first,
-    Last const& last,
-    F const& f,
+for_each_member_linear(First const&,
+    Last const&,
+    F const&,
     boost::mpl::true_)
 {
 }

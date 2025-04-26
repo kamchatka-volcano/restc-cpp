@@ -403,7 +403,7 @@ public:
         return true;
     }
 
-    bool Bool(bool b) override {
+    bool Bool(bool) override {
         return true;
     }
 
@@ -427,7 +427,7 @@ public:
         return true;
     }
 
-    bool String(const char*, std::size_t Tlength, bool) override {
+    bool String(const char*, std::size_t, bool) override {
         return true;
     }
 
@@ -443,7 +443,7 @@ public:
         return true;
     }
 
-    bool Key(const char* str, std::size_t length, bool copy) override {
+    bool Key([[maybe_unused]] const char* str, [[maybe_unused]] std::size_t length, bool) override {
 #ifdef RESTC_CPP_LOG_JSON_SERIALIZATION
         RESTC_CPP_LOG_TRACE_("   Skipping json key: "
             << boost::string_ref(str, length));
@@ -451,7 +451,7 @@ public:
         return true;
     }
 
-    bool EndObject(std::size_t memberCount) override {
+    bool EndObject(std::size_t) override {
 #ifdef RESTC_CPP_LOG_JSON_SERIALIZATION
         RESTC_CPP_LOG_TRACE_("   Skipping json: EndObject()");
 #endif
@@ -471,7 +471,7 @@ public:
         return true;
     }
 
-    bool EndArray(std::size_t elementCount) override {
+    bool EndArray(std::size_t) override {
 #ifdef RESTC_CPP_LOG_JSON_SERIALIZATION
         RESTC_CPP_LOG_TRACE_("   Skipping json: EndArray()");
 #endif
@@ -573,7 +573,7 @@ public:
             : DoString(str, length, copy);
     }
 
-    bool RawNumber(const char* str, std::size_t length, bool copy) override {
+    bool RawNumber(const char*, std::size_t, bool) override {
         assert(((state_ == State::RECURSED) && recursed_to_) || !recursed_to_);
         assert(false);
         return true;
@@ -856,11 +856,11 @@ private:
         return SetValue(d);
     }
 
-    bool DoString(const char* str, std::size_t length, bool copy) {
+    bool DoString(const char* str, std::size_t length, bool) {
         return SetValue(std::string(str, length));
     }
 
-    bool DoRawNumber(const char* str, std::size_t length, bool copy) {
+    bool DoRawNumber(const char*, std::size_t, bool) {
         assert(false);
         return false;
     }
@@ -903,7 +903,7 @@ private:
         return true;
     }
 
-    bool DoKey(const char* str, std::size_t length, bool copy) {
+    bool DoKey(const char* str, std::size_t length, bool) {
         assert(current_name_.empty());
 
         if (properties_.name_mapping == nullptr) {
@@ -919,7 +919,7 @@ private:
         return true;
     }
 
-    bool DoEndObject(std::size_t memberCount) {
+    bool DoEndObject(std::size_t) {
 #ifdef RESTC_CPP_LOG_JSON_SERIALIZATION
         RESTC_CPP_LOG_TRACE_(RESTC_CPP_TYPENAME(data_t)
             << " DoEndObject: " << current_name_);
@@ -970,7 +970,7 @@ private:
         return true;
     }
 
-    bool DoEndArray(std::size_t elementCount) {
+    bool DoEndArray(std::size_t) {
 #ifdef RESTC_CPP_LOG_JSON_SERIALIZATION
         RESTC_CPP_LOG_TRACE_(RESTC_CPP_TYPENAME(data_t)
             << " DoEndArray: " << current_name_);
@@ -1071,7 +1071,7 @@ constexpr bool is_empty_field(T&& value) {
 }
 
 template <typename T, typename S>
-void do_serialize_integral(const T& v, S& serializer) {
+void do_serialize_integral(const T&, S&) {
     assert(false);
 }
 

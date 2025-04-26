@@ -55,10 +55,9 @@ public:
         return out.str();
     }
 
-    static void Log(const ::restc_cpp::boost_const_buffer buffers, const char * tag)
+    static void Log(const ::restc_cpp::boost_const_buffer buffers, [[maybe_unused]] const char * tag)
     {
-        const auto buf_len = boost_buffer_size(buffers);
-
+        [[maybe_unused]] const auto buf_len = boost_buffer_size(buffers);
         // At the time of the implementation, there are never multiple buffers.
         RESTC_CPP_LOG_TRACE_(tag << ' ' << "# " << buf_len
             << " bytes: "

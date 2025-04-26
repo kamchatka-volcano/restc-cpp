@@ -32,11 +32,11 @@ public:
     }
 
     /*! Returns true if we added data */
-    virtual bool GetData(write_buffers_t& buffers) {
+    virtual bool GetData(write_buffers_t&) {
         throw NotImplementedException("GetFixedSize()");
     }
 
-    virtual void PushData(DataWriter& writer) {
+    virtual void PushData(DataWriter&) {
         throw NotImplementedException("GetFixedSize()");
     }
 
