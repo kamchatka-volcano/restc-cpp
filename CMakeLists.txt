@@ -237,9 +237,11 @@ endif()
 set(SOURCES ${ACTUAL_SOURCES})
 
 add_library(${PROJECT_NAME} ${SOURCES})
+add_library("${PROJECT_NAME}::${PROJECT_NAME}" ALIAS ${PROJECT_NAME})
 set_target_properties(${PROJECT_NAME} PROPERTIES DEBUG_OUTPUT_NAME restc-cppD)
 target_include_directories(${PROJECT_NAME}
     PUBLIC
+        $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
         $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/include>
         $<BUILD_INTERFACE:${CMAKE_BINARY_DIR}/generated-include>
         $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
