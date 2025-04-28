@@ -234,7 +234,7 @@ size_t ValidateCompleteSocks5ConnectReply(const uint8_t *buf, size_t len) {
 
 void DoSocks5Handshake(Connection& connection,
                        const Url& url,
-                       const Request::Properties& properties,
+                       [[maybe_unused]] const Request::Properties& properties,
                        Context& ctx) {
 
     assert(properties.proxy.type == Request::Proxy::Type::SOCKS5);
@@ -299,19 +299,10 @@ void DoSocks5Handshake(Connection& connection,
 class RequestImpl : public Request {
 public:
 
-    struct RedirectException{
-
-        RedirectException(const RedirectException&) = delete;
-        RedirectException(RedirectException &&) = default;
-
+    struct RedirectException : public RestcCppException{
         RedirectException(int redirCode, string redirUrl, std::unique_ptr<Reply> reply)
-            : code{redirCode}, url{std::move(redirUrl)}, redirectReply{std::move(reply)}
+            : RestcCppException("RedirectException"),code{redirCode}, url{std::move(redirUrl)}, redirectReply{std::move(reply)}
         {}
-
-        RedirectException() = delete;
-        ~RedirectException() = default;
-        RedirectException& operator = (const RedirectException&) = delete;
-        RedirectException& operator = (RedirectException&&) = delete;
 
         [[nodiscard]] int GetCode() const noexcept { return code; };
         [[nodiscard]] const std::string &GetUrl() const noexcept { return url; }
@@ -320,7 +311,7 @@ public:
     private:
         const int code;
         std::string url;
-        std::unique_ptr<Reply> redirectReply;
+        std::shared_ptr<Reply> redirectReply;
     };
 
     RequestImpl(std::string url,
