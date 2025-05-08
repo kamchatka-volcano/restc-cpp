@@ -16,6 +16,31 @@ using namespace std;
 
 namespace restc_cpp {
 
+std::vector<std::string_view> ReplyImpl::headerNames() const {
+    auto result = std::vector<std::string_view>{};
+    for (auto& header : headers_)
+        result.push_back(header.first);
+    return result;
+}
+
+boost::optional<string_view> ReplyImpl::header(const string& name) {
+    auto it = headers_.find(name);
+    if (it != headers_.end())
+        return std::string_view{it->second};
+
+    return {};
+}
+
+std::deque<std::string_view> ReplyImpl::headers(const std::string& name) {
+    std::deque<std::string_view> rval;
+
+    auto range = headers_.equal_range(name);
+    for (auto it = range.first; it != range.second; ++it) {
+        rval.push_back(it->second);
+    }
+
+    return rval;
+}
 
 boost::optional<string> ReplyImpl::GetHeader(const string& name) {
     boost::optional<string> rval;

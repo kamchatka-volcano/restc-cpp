@@ -32,6 +32,11 @@ public:
 
     ~ReplyImpl();
 
+    std::vector<std::string_view> headerNames() const override;
+    boost::optional<std::string_view>
+        header(const std::string& name) override;
+    std::deque<std::string_view> headers(const std::string& name) override;
+
     boost::optional<string> GetHeader(const string& name) override;
     std::deque<std::string> GetHeaders(const std::string& name) override;
 

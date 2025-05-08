@@ -281,6 +281,11 @@ public:
      */
     virtual bool MoreDataToRead() = 0;
 
+    virtual std::vector<std::string_view> headerNames() const = 0;
+    virtual boost::optional<std::string_view>
+        header(const std::string& name) = 0;
+    virtual std::deque<std::string_view> headers(const std::string& name) = 0;
+
     /*! Get the value of a header */
     virtual boost::optional<std::string>
         GetHeader(const std::string& name) = 0;
